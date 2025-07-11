@@ -1,11 +1,17 @@
 'use client';
 
 import { Meteors } from "@/components/ui/meteors";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect } from "react";
 
-function page() {
+function Page() {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
+
+    // Fix hydration mismatch by rendering Meteors only on client
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -50,9 +56,9 @@ function page() {
           </button>
         </form>
       </div>
-        {/* <Meteors number={20} className="absolute top-1"/> */}
+        {mounted && <Meteors number={20} className="absolute top-1"/>}
     </div>
   )
 }
 
-export default page
+export default Page
